@@ -1,0 +1,18 @@
+Package: org.cuberact.tools
+Extension-Name: cuberact-tools
+Specification-Title: cuberact-tools
+Specification-Vendor: Cuberact.org
+Specification-Version: ${project.version}
+Implementation-Vendor: Cuberact.org
+Implementation-Title: org.cuberact.tools
+Implementation-Version: ${project.version}
+Implementation-Vendor-Id: org.cuberact
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Vendor: Cuberact.org
+Bundle-Name: cuberact-json
+Bundle-SymbolicName: cuberact-json
+Bundle-Version: ${project.version}
+Export-Package: org.cuberact.tools;version=${project.version}
+Bundle-License: Apache 2.0
+Bundle-DocURL: https://github.com/cuberact/cuberact-tools
