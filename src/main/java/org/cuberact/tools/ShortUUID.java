@@ -19,7 +19,7 @@ package org.cuberact.tools;
 import java.util.UUID;
 
 /**
- * <p>Shorter UUID represantation. Have same strength as java.util.UUID. It's useful for save to database as ID or everywhere where we need persist unique identifier and we need shorter then java UUID.</p>
+ * <p>Shorter UUID representation. Have same strength as java.util.UUID. It's useful for save to database as ID or everywhere where we need persist unique identifier and we need shorter then java UUID.</p>
  * <p>ShortUUID always has 26 chars. For compare java UUID has 36 chars.</p>
  * <p>ShortUUID uses only chars: abcdefghijklmnopqrstuvwxyz012345</p>
  * <p>Implementation of ShortUUID is heavy optimized for speed.</p>
