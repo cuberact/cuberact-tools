@@ -39,7 +39,7 @@ public abstract class ABytes implements Bytes {
         int f = token.from() < 0 ? 0 : token.from();
         final int t = token.to() > size() ? size() : token.to();
         if (f == 0 && t == size()) return toArray();
-        final int length = t - f;
+        final int length = (t - f) + 1;
         byte[] result = new byte[length];
         for (int i = 0; i < length; i++) {
             result[i] = get(f++);
@@ -78,8 +78,8 @@ public abstract class ABytes implements Bytes {
         int start = 0;
         for (int i = 0; i < size; i++) {
             if (tokenDetector.apply(get(i)) == Boolean.FALSE) {
-                if (i > start) {
-                    tokens.add(new ByteToken(start, i));
+                if ((i - 1) > start) {
+                    tokens.add(new ByteToken(start, i - 1));
                 }
                 start = i + 1;
             }

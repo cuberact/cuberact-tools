@@ -3,6 +3,7 @@ package org.cuberact.tools.bytes;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 
 public class ByteDataTest {
@@ -70,6 +71,80 @@ public class ByteDataTest {
         Assert.assertEquals(1, byteData.get(0));
         Assert.assertEquals(2, byteData.get(1));
         Assert.assertEquals(3, byteData.get(2));
+    }
+
+    @Test
+    public void addBytesWithToken() {
+        ByteData testData = new ByteData(new byte[]{1, 2, 3});
+        ByteData byteData = new ByteData();
+        byteData.add(testData, new ByteToken(0, 1));
+        Assert.assertEquals(2, byteData.size());
+        Assert.assertEquals(1, byteData.get(0));
+        Assert.assertEquals(2, byteData.get(1));
+    }
+
+    @Test
+    public void addInputStreamWithSeparator() {
+        ByteArrayInputStream bais = new ByteArrayInputStream("one two three".getBytes());
+        ByteData byteData = new ByteData();
+        byteData.add(bais, " ".getBytes());
+        Assert.assertEquals(4, byteData.size());
+        Assert.assertEquals("one ", byteData.toString(StandardCharsets.UTF_8));
+    }
+
+    @Test
+    public void addInputStreamWithLength() {
+        ByteArrayInputStream bais = new ByteArrayInputStream("one two three".getBytes());
+        ByteData byteData = new ByteData();
+        byteData.add(bais, 4);
+        Assert.assertEquals(4, byteData.size());
+        Assert.assertEquals("one ", byteData.toString(StandardCharsets.UTF_8));
+    }
+
+    @Test
+    public void addInputStream() {
+        ByteArrayInputStream bais = new ByteArrayInputStream("one two three".getBytes());
+        ByteData byteData = new ByteData();
+        byteData.add(bais);
+        Assert.assertEquals(13, byteData.size());
+        Assert.assertEquals("one two three", byteData.toString(StandardCharsets.UTF_8));
+    }
+
+    @Test
+    public void drop() {
+        byte[] testData = new byte[]{1, 2, 3, 4, 5};
+        ByteData byteData = new ByteData();
+        byteData.add(testData);
+        byteData.drop(2);
+        Assert.assertEquals(3, byteData.size());
+        Assert.assertEquals(1, byteData.get(0));
+        Assert.assertEquals(2, byteData.get(1));
+        Assert.assertEquals(3, byteData.get(2));
+    }
+
+    @Test
+    public void clear() {
+        byte[] testData = new byte[]{1, 2, 3};
+        ByteData byteData = new ByteData();
+        byteData.add(testData);
+        Assert.assertEquals(3, byteData.size());
+        Assert.assertEquals(1, byteData.get(0));
+        Assert.assertEquals(2, byteData.get(1));
+        Assert.assertEquals(3, byteData.get(2));
+        byteData.clear();
+        Assert.assertEquals(0, byteData.size());
+    }
+
+    @Test
+    public void toArrayWithToken() {
+        byte[] testData = new byte[]{1, 2, 3, 4, 5};
+        ByteData byteData = new ByteData();
+        byteData.add(testData);
+        final byte[] array = byteData.toArray(new ByteToken(2, 4));
+        Assert.assertEquals(3, array.length);
+        Assert.assertEquals(3, array[0]);
+        Assert.assertEquals(4, array[1]);
+        Assert.assertEquals(5, array[2]);
     }
 
 }

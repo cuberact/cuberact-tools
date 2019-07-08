@@ -142,7 +142,7 @@ public final class ByteData extends ABytes {
         final int f = token.from() < 0 ? 0 : token.from();
         final int t = token.to() > size() ? size() : token.to();
         if (f == 0 && t == size()) return toArray();
-        return Arrays.copyOfRange(data, f, t);
+        return Arrays.copyOfRange(data, f, t + 1);
     }
 
     private void addToData(final byte b) {

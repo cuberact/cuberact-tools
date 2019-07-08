@@ -19,6 +19,6 @@ public final class ByteToken {
     }
 
     public int size() {
-        return to - from;
+        return (to - from) + 1;
     }
 }
