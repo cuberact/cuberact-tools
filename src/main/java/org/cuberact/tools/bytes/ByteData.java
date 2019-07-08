@@ -139,9 +139,10 @@ public final class ByteData extends ABytes {
 
     @Override
     public byte[] toArray(final ByteToken token) {
+        final int sizeMinusOne = size() - 1;
         final int f = token.from() < 0 ? 0 : token.from();
-        final int t = token.to() > size() ? size() : token.to();
-        if (f == 0 && t == size()) return toArray();
+        final int t = token.to() > sizeMinusOne ? sizeMinusOne : token.to();
+        if (f == 0 && t == sizeMinusOne) return toArray();
         return Arrays.copyOfRange(data, f, t + 1);
     }
 
