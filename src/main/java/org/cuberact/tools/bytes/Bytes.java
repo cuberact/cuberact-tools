@@ -7,6 +7,8 @@ import java.util.function.Function;
 
 public interface Bytes {
 
+    Bytes EMPTY = new ByteData(0);
+
     byte get(int index);
 
     int size();

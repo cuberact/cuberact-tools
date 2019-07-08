@@ -53,6 +53,7 @@ public final class ByteData extends ABytes {
     }
 
     public ByteData add(final CharSequence sequence, final Charset charset) {
+        if (sequence == null) return this;
         return add(sequence.toString().getBytes(charset));
     }
 
@@ -158,6 +159,7 @@ public final class ByteData extends ABytes {
                 System.arraycopy(data, 0, enlarged, 0, data.length);
                 data = enlarged;
             }
+            if (chunkSize == 0) throw new ByteException("Chunk size is zero");
             if (size == data.length) throw new ByteException("Ensure data size fail. Too big [" + size + "]");
         }
     }
