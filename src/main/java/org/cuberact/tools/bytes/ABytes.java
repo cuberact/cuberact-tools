@@ -78,7 +78,7 @@ public abstract class ABytes implements Bytes {
         int start = 0;
         for (int i = 0; i < size; i++) {
             if (tokenDetector.apply(get(i)) == Boolean.FALSE) {
-                if ((i - 1) > start) {
+                if (i > start) {
                     tokens.add(new ByteToken(start, i - 1));
                 }
                 start = i + 1;

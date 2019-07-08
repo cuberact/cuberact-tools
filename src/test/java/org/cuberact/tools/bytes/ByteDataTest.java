@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class ByteDataTest {
 
@@ -145,6 +146,18 @@ public class ByteDataTest {
         Assert.assertEquals(3, array[0]);
         Assert.assertEquals(4, array[1]);
         Assert.assertEquals(5, array[2]);
+    }
+
+    @Test
+    public void scan() {
+        ByteData byteData = new ByteData();
+        byteData.add("GET / HTTP/1.1\r\n", StandardCharsets.UTF_8);
+        final List<ByteToken> tokens = byteData.scan(ByteConst.TOKEN_DETECTOR_NOT_WHITE_CHAR);
+        Assert.assertEquals(3, tokens.size());
+        Assert.assertEquals("GET", byteData.toString(tokens.get(0), StandardCharsets.UTF_8));
+        Assert.assertEquals("/", byteData.toString(tokens.get(1), StandardCharsets.UTF_8));
+        Assert.assertEquals("HTTP/1.1", byteData.toString(tokens.get(2), StandardCharsets.UTF_8));
+
     }
 
 }
