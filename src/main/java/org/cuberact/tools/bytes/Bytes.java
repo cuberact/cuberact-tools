@@ -15,13 +15,13 @@ public interface Bytes {
 
     byte[] toArray();
 
-    byte[] toArray(final ByteToken token);
+    byte[] toArray(ByteToken token);
 
-    void toStream(OutputStream stream);
+    void writeTo(OutputStream stream);
 
-    boolean endWith(final byte[] bytes);
+    boolean endWith(byte[] bytes);
 
-    boolean containsOnly(final byte[] bytes);
+    boolean containsOnly(byte[] bytes);
 
     String toString(Charset charset);
 

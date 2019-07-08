@@ -1,6 +1,7 @@
 package org.cuberact.tools.bytes;
 
-public class ByteToken {
+public final class ByteToken {
+
     final int from;
     final int to;
 

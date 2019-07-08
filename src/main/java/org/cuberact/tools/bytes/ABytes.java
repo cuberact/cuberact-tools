@@ -10,7 +10,7 @@ import java.util.function.Function;
 public abstract class ABytes implements Bytes {
 
     @Override
-    public abstract byte get(final int index);
+    public abstract byte get(int index);
 
     @Override
     public abstract int size();
@@ -19,10 +19,9 @@ public abstract class ABytes implements Bytes {
     public abstract byte[] toArray();
 
     public boolean endWith(final byte[] bytes) {
-        final int bytesLength = bytes.length;
-        final int dataIndex = size() - bytesLength;
+        final int dataIndex = size() - bytes.length;
         if (dataIndex < 0) return false;
-        for (int bytesIndex = 0; bytesIndex < bytesLength; bytesIndex++) {
+        for (int bytesIndex = 0; bytesIndex < bytes.length; bytesIndex++) {
             if (bytes[bytesIndex] != get(bytesIndex + dataIndex)) return false;
         }
         return true;
@@ -38,9 +37,9 @@ public abstract class ABytes implements Bytes {
 
     public byte[] toArray(final ByteToken token) {
         int f = token.from() < 0 ? 0 : token.from();
-        int t = token.to() > size() ? size() : token.to();
+        final int t = token.to() > size() ? size() : token.to();
         if (f == 0 && t == size()) return toArray();
-        int length = t - f;
+        final int length = t - f;
         byte[] result = new byte[length];
         for (int i = 0; i < length; i++) {
             result[i] = get(f++);
@@ -49,8 +48,8 @@ public abstract class ABytes implements Bytes {
     }
 
     @Override
-    public void toStream(final OutputStream stream) {
-        int size = size();
+    public void writeTo(final OutputStream stream) {
+        final int size = size();
         try {
             for (int i = 0; i < size; i++) {
                 stream.write(get(i));
@@ -75,8 +74,8 @@ public abstract class ABytes implements Bytes {
 
     public List<ByteToken> scan(Function<Byte, Boolean> tokenDetector) {
         List<ByteToken> tokens = new ArrayList<>();
+        final int size = size();
         int start = 0;
-        int size = size();
         for (int i = 0; i < size; i++) {
             if (tokenDetector.apply(get(i)) == Boolean.FALSE) {
                 if (i > start) {

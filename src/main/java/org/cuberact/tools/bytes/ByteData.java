@@ -57,22 +57,22 @@ public final class ByteData extends ABytes {
         return add(sequence.toString().getBytes(charset));
     }
 
-    public ByteData add(Bytes bytes) {
-        int byteSize = bytes.size(); //important, because param byteData can be this (same instance)
+    public ByteData add(final Bytes bytes) {
+        final int byteSize = bytes.size(); //important, because param byteData can be this (same instance)
         for (int i = 0; i < byteSize; i++) {
             addToData(bytes.get(i));
         }
         return this;
     }
 
-    public ByteData add(Bytes bytes, ByteToken token) {
+    public ByteData add(final Bytes bytes, final ByteToken token) {
         for (int i = token.from; i <= token.to; i++) {
             addToData(bytes.get(i));
         }
         return this;
     }
 
-    public ByteData add(InputStream stream, byte[] separator) {
+    public ByteData add(final InputStream stream, final byte[] separator) {
         while (true) {
             add(readByte(stream));
             if (endWith(separator)) {
@@ -81,14 +81,14 @@ public final class ByteData extends ABytes {
         }
     }
 
-    public ByteData add(InputStream stream, int length) {
+    public ByteData add(final InputStream stream, final int length) {
         for (int i = 0; i < length; i++) {
             addToData(readByte(stream));
         }
         return this;
     }
 
-    public ByteData add(InputStream stream) {
+    public ByteData add(final InputStream stream) {
         while (true) {
             try {
                 addToData(readByte(stream));
@@ -122,7 +122,7 @@ public final class ByteData extends ABytes {
     }
 
     @Override
-    public byte get(int index) {
+    public byte get(final int index) {
         return data[index];
     }
 
@@ -139,8 +139,8 @@ public final class ByteData extends ABytes {
 
     @Override
     public byte[] toArray(final ByteToken token) {
-        int f = token.from() < 0 ? 0 : token.from();
-        int t = token.to() > size() ? size() : token.to();
+        final int f = token.from() < 0 ? 0 : token.from();
+        final int t = token.to() > size() ? size() : token.to();
         if (f == 0 && t == size()) return toArray();
         return Arrays.copyOfRange(data, f, t);
     }
@@ -164,7 +164,7 @@ public final class ByteData extends ABytes {
         }
     }
 
-    private static byte readByte(InputStream inputStream) throws ByteException {
+    private static byte readByte(final InputStream inputStream) throws ByteException {
         try {
             int intValue = inputStream.read();
             if (intValue == -1) {

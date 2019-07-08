@@ -1,11 +1,11 @@
 package org.cuberact.tools.bytes;
 
-public class ByteException extends RuntimeException {
-    ByteException(String message) {
+public final class ByteException extends RuntimeException {
+    ByteException(final String message) {
         super(message);
     }
 
-    ByteException(Throwable t) {
+    ByteException(final Throwable t) {
         super(t);
     }
 }

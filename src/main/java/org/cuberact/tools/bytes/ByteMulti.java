@@ -2,21 +2,22 @@ package org.cuberact.tools.bytes;
 
 public class ByteMulti extends ABytes {
 
-    private Bytes[] data;
+    private Bytes[] multi;
     private int size;
 
     public ByteMulti(Bytes... bytes) {
-        this.data = bytes;
+        this.multi = bytes;
         for (Bytes bd : bytes) {
             this.size += bd.size();
         }
     }
 
+    @SuppressWarnings("ForLoopReplaceableByForEach")
     @Override
     public byte get(int index) {
-        for (Bytes byteData : data) {
-            if (index < byteData.size()) return byteData.get(index);
-            index -= byteData.size();
+        for (int i = 0; i < multi.length; i++) {
+            if (index < multi[i].size()) return multi[i].get(index);
+            index -= multi[i].size();
         }
         return 0;
     }
@@ -29,7 +30,7 @@ public class ByteMulti extends ABytes {
     @Override
     public byte[] toArray() {
         ByteData sum = new ByteData();
-        for (Bytes byteData : data) {
+        for (Bytes byteData : multi) {
             sum.add(byteData);
         }
         return sum.toArray();

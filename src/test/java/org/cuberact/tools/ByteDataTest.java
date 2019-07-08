@@ -81,7 +81,7 @@ public class ByteDataTest {
     public void tokens1() {
         String line = "GET /something            HTTP/1.1\r\n";
         ByteData byteData = new ByteData().add(line.getBytes());
-        List<ByteToken> tokens = byteData.scan(ByteConst.DETECTOR_NOT_WHITE_CHAR);
+        List<ByteToken> tokens = byteData.scan(ByteConst.TOKEN_DETECTOR_NOT_WHITE_CHAR);
         Assert.assertEquals(3, tokens.size());
         Assert.assertEquals("GET", byteData.toString(tokens.get(0), StandardCharsets.UTF_8));
         Assert.assertEquals("/something", byteData.toString(tokens.get(1), StandardCharsets.UTF_8));
@@ -92,7 +92,7 @@ public class ByteDataTest {
     public void tokens2() {
         String line = "G";
         ByteData byteData = new ByteData().add(line.getBytes());
-        List<ByteToken> tokens = byteData.scan(ByteConst.DETECTOR_NOT_WHITE_CHAR);
+        List<ByteToken> tokens = byteData.scan(ByteConst.TOKEN_DETECTOR_NOT_WHITE_CHAR);
         Assert.assertEquals(1, tokens.size());
         Assert.assertEquals("G", byteData.toString(tokens.get(0), StandardCharsets.UTF_8));
     }
@@ -101,7 +101,7 @@ public class ByteDataTest {
     public void tokens3() {
         String line = "";
         ByteData byteData = new ByteData().add(line.getBytes());
-        List<ByteToken> tokens = byteData.scan(ByteConst.DETECTOR_NOT_WHITE_CHAR);
+        List<ByteToken> tokens = byteData.scan(ByteConst.TOKEN_DETECTOR_NOT_WHITE_CHAR);
         Assert.assertEquals(0, tokens.size());
     }
 
@@ -109,7 +109,7 @@ public class ByteDataTest {
     public void tokens4() {
         String line = "         \r\n   ";
         ByteData byteData = new ByteData().add(line.getBytes());
-        List<ByteToken> tokens = byteData.scan(ByteConst.DETECTOR_NOT_WHITE_CHAR);
+        List<ByteToken> tokens = byteData.scan(ByteConst.TOKEN_DETECTOR_NOT_WHITE_CHAR);
         Assert.assertEquals(0, tokens.size());
     }
 
