@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import static org.cuberact.tools.bytes.ByteConst.CR;
+import static org.cuberact.tools.bytes.ByteConst.LF;
+
 public abstract class ABytes implements Bytes {
 
     @Override
@@ -31,6 +34,15 @@ public abstract class ABytes implements Bytes {
         if (size() != bytes.length) return false;
         for (int i = 0; i < bytes.length; i++) {
             if (get(i) != bytes[i]) return false;
+        }
+        return true;
+    }
+
+    public boolean containsOnlyLineBreak() {
+        int size = size();
+        for (int i = 0; i < size; i++) {
+            byte b = get(i);
+            if (b != CR && b != LF) return false;
         }
         return true;
     }

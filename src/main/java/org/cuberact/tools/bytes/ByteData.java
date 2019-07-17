@@ -1,9 +1,11 @@
 package org.cuberact.tools.bytes;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+
+import static org.cuberact.tools.bytes.ByteConst.CR;
+import static org.cuberact.tools.bytes.ByteConst.LF;
 
 public final class ByteData extends ABytes {
 
@@ -72,7 +74,7 @@ public final class ByteData extends ABytes {
         return this;
     }
 
-    public ByteData add(final InputStream stream, final byte[] separator) {
+    public ByteData add(final ByteInputStream stream, final byte[] separator) {
         while (true) {
             add(readByte(stream));
             if (endWith(separator)) {
@@ -81,20 +83,37 @@ public final class ByteData extends ABytes {
         }
     }
 
-    public ByteData add(final InputStream stream, final int length) {
+    public ByteData addLine(final ByteInputStream stream) {
+        while (true) {
+            add(readByte(stream));
+            if (data[size - 1] == CR) {
+                byte nextChar = readByte(stream);
+                if (nextChar == LF) {
+                    add(nextChar);
+                } else {
+                    stream.repeatLastByte();
+                }
+                return this;
+            } else if (data[size - 1] == LF) {
+                return this;
+            }
+        }
+    }
+
+    public ByteData add(final ByteInputStream stream, final int length) {
         for (int i = 0; i < length; i++) {
             addToData(readByte(stream));
         }
         return this;
     }
 
-    public ByteData add(final InputStream stream) {
+    public ByteData add(final ByteInputStream stream) {
         while (true) {
             try {
-                addToData(readByte(stream));
                 if (stream.available() == 0) {
                     return this;
                 }
+                addToData(readByte(stream));
             } catch (Throwable t) {
                 throw new ByteException(t);
             }
@@ -165,7 +184,7 @@ public final class ByteData extends ABytes {
         }
     }
 
-    private static byte readByte(final InputStream inputStream) throws ByteException {
+    private static byte readByte(final ByteInputStream inputStream) throws ByteException {
         try {
             int intValue = inputStream.read();
             if (intValue == -1) {

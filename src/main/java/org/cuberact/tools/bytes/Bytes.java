@@ -23,6 +23,8 @@ public interface Bytes {
 
     boolean containsOnly(byte[] bytes);
 
+    boolean containsOnlyLineBreak();
+
     String toString(Charset charset);
 
     String toString(ByteToken token, Charset charset);

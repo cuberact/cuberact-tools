@@ -4,7 +4,9 @@ import java.util.function.Function;
 
 public final class ByteConst {
 
-    public static final byte[] CRLF = new byte[]{13, 10};
+    public static final byte CR = 13;
+    public static final byte LF = 10;
+    public static final byte[] CRLF = new byte[]{CR, LF};
     public static final byte SPACE = 32; // ' '
     public static final byte COLON = 58; // ':'
 

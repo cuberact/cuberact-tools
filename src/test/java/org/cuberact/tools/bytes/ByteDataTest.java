@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
 
 public class ByteDataTest {
@@ -86,7 +87,7 @@ public class ByteDataTest {
 
     @Test
     public void addInputStreamWithSeparator() {
-        ByteArrayInputStream bais = new ByteArrayInputStream("one two three".getBytes());
+        ByteInputStream bais = new ByteInputStream(new ByteArrayInputStream("one two three".getBytes()));
         ByteData byteData = new ByteData();
         byteData.add(bais, " ".getBytes());
         Assert.assertEquals(4, byteData.size());
@@ -94,8 +95,42 @@ public class ByteDataTest {
     }
 
     @Test
+    public void addInputStreamLine() {
+        ByteData source = new ByteData();
+        source.add("line 1", StandardCharsets.UTF_8).add(ByteConst.CRLF);
+        source.add("line 2", StandardCharsets.UTF_8).add(ByteConst.CR);
+        source.add("line 3", StandardCharsets.UTF_8).add(ByteConst.LF);
+        source.add("line 4", StandardCharsets.UTF_8).add(ByteConst.CRLF);
+        source.add(ByteConst.CRLF);
+        source.add(ByteConst.CR);
+        source.add(ByteConst.CR);
+        source.add(ByteConst.CRLF);
+        source.add(ByteConst.LF);
+        source.add(ByteConst.LF);
+
+        ByteInputStream bis = new ByteInputStream(new ByteArrayInputStream(source.toArray()));
+
+        assertEquals(new ByteData().add("line 1", StandardCharsets.UTF_8).add(ByteConst.CRLF), new ByteData().addLine(bis));
+        assertEquals(new ByteData().add("line 2", StandardCharsets.UTF_8).add(ByteConst.CR), new ByteData().addLine(bis));
+        assertEquals(new ByteData().add("line 3", StandardCharsets.UTF_8).add(ByteConst.LF), new ByteData().addLine(bis));
+        assertEquals(new ByteData().add("line 4", StandardCharsets.UTF_8).add(ByteConst.CRLF), new ByteData().addLine(bis));
+        assertEquals(new ByteData().add(ByteConst.CRLF), new ByteData().addLine(bis));
+        assertEquals(new ByteData().add(ByteConst.CR), new ByteData().addLine(bis));
+        assertEquals(new ByteData().add(ByteConst.CR), new ByteData().addLine(bis));
+        assertEquals(new ByteData().add(ByteConst.CRLF), new ByteData().addLine(bis));
+        assertEquals(new ByteData().add(ByteConst.LF), new ByteData().addLine(bis));
+        assertEquals(new ByteData().add(ByteConst.LF), new ByteData().addLine(bis));
+    }
+
+    private void assertEquals(Bytes expected, Bytes actual) {
+        String e = Arrays.toString(expected.toArray());
+        String a = Arrays.toString(actual.toArray());
+        Assert.assertEquals(e, a);
+    }
+
+    @Test
     public void addInputStreamWithLength() {
-        ByteArrayInputStream bais = new ByteArrayInputStream("one two three".getBytes());
+        ByteInputStream bais = new ByteInputStream(new ByteArrayInputStream("one two three".getBytes()));
         ByteData byteData = new ByteData();
         byteData.add(bais, 4);
         Assert.assertEquals(4, byteData.size());
@@ -104,7 +139,7 @@ public class ByteDataTest {
 
     @Test
     public void addInputStream() {
-        ByteArrayInputStream bais = new ByteArrayInputStream("one two three".getBytes());
+        ByteInputStream bais = new ByteInputStream(new ByteArrayInputStream("one two three".getBytes()));
         ByteData byteData = new ByteData();
         byteData.add(bais);
         Assert.assertEquals(13, byteData.size());
