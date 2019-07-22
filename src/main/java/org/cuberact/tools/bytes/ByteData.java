@@ -1,6 +1,7 @@
 package org.cuberact.tools.bytes;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
@@ -55,7 +56,7 @@ public final class ByteData extends ABytes {
     }
 
     public ByteData add(final CharSequence sequence, final Charset charset) {
-        if (sequence == null) return this;
+        if (sequence == null || sequence.length() == 0) return this;
         return add(sequence.toString().getBytes(charset));
     }
 
@@ -76,7 +77,7 @@ public final class ByteData extends ABytes {
 
     public ByteData add(final ByteInputStream stream, final byte[] separator) {
         while (true) {
-            add(readByte(stream));
+            add(readOneByte(stream));
             if (endWith(separator)) {
                 return this;
             }
@@ -85,9 +86,9 @@ public final class ByteData extends ABytes {
 
     public ByteData addLine(final ByteInputStream stream) {
         while (true) {
-            add(readByte(stream));
+            add(readOneByte(stream));
             if (data[size - 1] == CR) {
-                byte nextChar = readByte(stream);
+                byte nextChar = readOneByte(stream);
                 if (nextChar == LF) {
                     add(nextChar);
                 } else {
@@ -102,7 +103,7 @@ public final class ByteData extends ABytes {
 
     public ByteData add(final ByteInputStream stream, final int length) {
         for (int i = 0; i < length; i++) {
-            addToData(readByte(stream));
+            addToData(readOneByte(stream));
         }
         return this;
     }
@@ -110,12 +111,13 @@ public final class ByteData extends ABytes {
     public ByteData add(final ByteInputStream stream) {
         while (true) {
             try {
-                if (stream.available() == 0) {
+                int intValue = stream.read();
+                if (intValue == -1) {
                     return this;
                 }
-                addToData(readByte(stream));
-            } catch (Throwable t) {
-                throw new ByteException(t);
+                addToData((byte) intValue);
+            } catch (IOException e) {
+                throw new ByteException(e);
             }
         }
     }
@@ -184,7 +186,7 @@ public final class ByteData extends ABytes {
         }
     }
 
-    private static byte readByte(final ByteInputStream inputStream) throws ByteException {
+    private static byte readOneByte(final InputStream inputStream) throws ByteException {
         try {
             int intValue = inputStream.read();
             if (intValue == -1) {
