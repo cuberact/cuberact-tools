@@ -62,11 +62,8 @@ public abstract class ABytes implements Bytes {
 
     @Override
     public void writeTo(final OutputStream stream) {
-        final int size = size();
         try {
-            for (int i = 0; i < size; i++) {
-                stream.write(get(i));
-            }
+            stream.write(toArray());
         } catch (IOException e) {
             throw new ByteException(e);
         }

@@ -10,7 +10,7 @@ import static org.cuberact.tools.bytes.ByteConst.LF;
 
 public final class ByteData extends ABytes {
 
-    private static final int CHUNK_SIZE = 4096;
+    private static final int CHUNK_SIZE = 65536;
     private static final int MAX_DATA_SIZE = Integer.MAX_VALUE - 8;
 
     private final int chunkSize;

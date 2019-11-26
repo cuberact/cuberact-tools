@@ -29,11 +29,15 @@ public class ByteMulti extends ABytes {
 
     @Override
     public byte[] toArray() {
-        ByteData sum = new ByteData();
+        byte[] bytes = new byte[size];
+        int i = 0;
         for (Bytes byteData : multi) {
-            sum.add(byteData);
+            byte[] sub = byteData.toArray();
+            if (sub.length == 0) continue;
+            System.arraycopy(sub, 0, bytes, i, sub.length);
+            i += sub.length;
         }
-        return sum.toArray();
+        return bytes;
     }
 
 }
