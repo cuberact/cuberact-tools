@@ -70,6 +70,27 @@ public class ByteMultiTest {
     }
 
     @Test
+    public void writeToWithLen() {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byteMulti.writeTo(baos,3);
+        Assert.assertEquals("one", new String(baos.toByteArray()));
+    }
+
+    @Test
+    public void writeToWithLenAndWrongLen() {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byteMulti.writeTo(baos,999);
+        Assert.assertEquals("one  two three ", new String(baos.toByteArray()));
+    }
+
+    @Test
+    public void writeToWithLenAndZeroLen() {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byteMulti.writeTo(baos,0);
+        Assert.assertEquals("", new String(baos.toByteArray()));
+    }
+
+    @Test
     public void endWith() {
         Assert.assertTrue(byteMulti.endWith(" ".getBytes()));
         Assert.assertTrue(byteMulti.endWith("three ".getBytes()));

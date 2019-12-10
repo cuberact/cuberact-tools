@@ -1,14 +1,14 @@
 package org.cuberact.tools.bytes;
 
+import static org.cuberact.tools.bytes.ByteConst.CR;
+import static org.cuberact.tools.bytes.ByteConst.LF;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
-
-import static org.cuberact.tools.bytes.ByteConst.CR;
-import static org.cuberact.tools.bytes.ByteConst.LF;
 
 public abstract class ABytes implements Bytes {
 
@@ -64,6 +64,17 @@ public abstract class ABytes implements Bytes {
     public void writeTo(final OutputStream stream) {
         try {
             stream.write(toArray());
+        } catch (IOException e) {
+            throw new ByteException(e);
+        }
+    }
+
+    @Override
+    public void writeTo(final OutputStream stream, int len) {
+        try {
+            byte[] bytes = toArray();
+            if (len > bytes.length) len = bytes.length;
+            stream.write(toArray(), 0, len);
         } catch (IOException e) {
             throw new ByteException(e);
         }

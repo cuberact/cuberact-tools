@@ -19,6 +19,8 @@ public interface Bytes {
 
     void writeTo(OutputStream stream);
 
+    void writeTo(OutputStream stream, int len);
+
     boolean endWith(byte[] bytes);
 
     boolean containsOnly(byte[] bytes);

@@ -28,7 +28,7 @@ public class ByteDataTest {
     }
 
     @Test
-    public void write() {
+    public void add() {
         bytes.add(data[0]);
         bytes.add(data);
         bytes.add(data, 2);
