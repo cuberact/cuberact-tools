@@ -1,5 +1,7 @@
 package org.cuberact.tools.bytes;
 
+import org.cuberact.tools.stream.ByteInputStream;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;

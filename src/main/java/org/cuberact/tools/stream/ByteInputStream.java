@@ -1,4 +1,4 @@
-package org.cuberact.tools.bytes;
+package org.cuberact.tools.stream;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,5 +31,10 @@ public class ByteInputStream extends InputStream {
 
     public void repeatLastByte() {
         repeatLastByte = true;
+    }
+
+    @Override
+    public void close() throws IOException {
+        stream.close();
     }
 }

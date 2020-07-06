@@ -1,14 +1,14 @@
 package org.cuberact.tools.bytes;
 
-import static org.cuberact.tools.bytes.ByteConst.CR;
-import static org.cuberact.tools.bytes.ByteConst.LF;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+
+import static org.cuberact.tools.bytes.ByteConst.CR;
+import static org.cuberact.tools.bytes.ByteConst.LF;
 
 public abstract class ABytes implements Bytes {
 
@@ -49,8 +49,8 @@ public abstract class ABytes implements Bytes {
 
     public byte[] toArray(final ByteToken token) {
         final int sizeMinusOne = size() - 1;
-        int f = token.from() < 0 ? 0 : token.from();
-        final int t = token.to() > sizeMinusOne ? sizeMinusOne : token.to();
+        int f = Math.max(token.from(), 0);
+        final int t = Math.min(token.to(), sizeMinusOne);
         if (f == 0 && t == sizeMinusOne) return toArray();
         final int length = (t - f) + 1;
         byte[] result = new byte[length];
