@@ -14,7 +14,7 @@
     <version>2.0.0</version>
     <packaging>jar</packaging>
 
-    <name>cuberact-tools</name>
+    <name>cuberact.tools</name>
     <description>Some useful classes</description>
 
     <url>https://github.com/cuberact/cuberact-tools</url>
