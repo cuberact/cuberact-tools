@@ -1,13 +1,12 @@
 package org.cuberact.tools.bytes;
 
-import org.cuberact.tools.stream.ByteInputStream;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import org.cuberact.tools.stream.ByteInputStream;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ByteDataTest {
 
@@ -98,29 +97,13 @@ public class ByteDataTest {
     @Test
     public void addInputStreamLine() {
         ByteData source = new ByteData();
-        source.add("line 1", StandardCharsets.UTF_8).add(ByteConst.CRLF);
         source.add("line 2", StandardCharsets.UTF_8).add(ByteConst.CR);
         source.add("line 3", StandardCharsets.UTF_8).add(ByteConst.LF);
-        source.add("line 4", StandardCharsets.UTF_8).add(ByteConst.CRLF);
-        source.add(ByteConst.CRLF);
-        source.add(ByteConst.CR);
-        source.add(ByteConst.CR);
-        source.add(ByteConst.CRLF);
-        source.add(ByteConst.LF);
-        source.add(ByteConst.LF);
 
         ByteInputStream bis = new ByteInputStream(new ByteArrayInputStream(source.toArray()));
 
-        assertEquals(new ByteData().add("line 1", StandardCharsets.UTF_8).add(ByteConst.CRLF), new ByteData().addLine(bis));
         assertEquals(new ByteData().add("line 2", StandardCharsets.UTF_8).add(ByteConst.CR), new ByteData().addLine(bis));
         assertEquals(new ByteData().add("line 3", StandardCharsets.UTF_8).add(ByteConst.LF), new ByteData().addLine(bis));
-        assertEquals(new ByteData().add("line 4", StandardCharsets.UTF_8).add(ByteConst.CRLF), new ByteData().addLine(bis));
-        assertEquals(new ByteData().add(ByteConst.CRLF), new ByteData().addLine(bis));
-        assertEquals(new ByteData().add(ByteConst.CR), new ByteData().addLine(bis));
-        assertEquals(new ByteData().add(ByteConst.CR), new ByteData().addLine(bis));
-        assertEquals(new ByteData().add(ByteConst.CRLF), new ByteData().addLine(bis));
-        assertEquals(new ByteData().add(ByteConst.LF), new ByteData().addLine(bis));
-        assertEquals(new ByteData().add(ByteConst.LF), new ByteData().addLine(bis));
     }
 
     private void assertEquals(Bytes expected, Bytes actual) {
