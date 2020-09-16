@@ -1,9 +1,32 @@
 package org.cuberact.tools.synchro;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 
 public class Synchro {
+
+    public static void lock(Lock lock, Runnable runnable) {
+        lock.lock();
+        try {
+            runnable.run();
+        } catch (Throwable t) {
+            throw new SynchroException(t);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public static <T> T lock(Lock lock, Callable<T> callable) {
+        lock.lock();
+        try {
+            return callable.call();
+        } catch (Throwable t) {
+            throw new SynchroException(t);
+        } finally {
+            lock.unlock();
+        }
+    }
 
     public static void readLock(ReadWriteLock lock, Runnable runnable) {
         lock.readLock().lock();
